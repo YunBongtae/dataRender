@@ -1,7 +1,6 @@
 # dataRender
 dataRender 라이브러리
-html 구조
-<div id="wrap">
+<!--<div id="wrap">
   <h2 class="">부분 랜더링이 가능한 페이지 작업</h2>
  <div class="{{list01}}">
   제목 : {{renderFun(list03)}}<br>
@@ -32,10 +31,9 @@ html 구조
   <div class="{{list01}} {{setClass}}" style="{{bg01}}">
     색상변경됩니다.
   </div>
-</div>
-
+</div>-->
 js 사용방식
-var dataClick = function(){
+/*var dataClick = function(){
     app.setData({
       'list02' : 'dsfjkl',
       'list01' : 'app2',
@@ -75,10 +73,32 @@ var dataClick = function(){
     // 데이터 모두 들어가고 나서 실행되는 이벤트
     console.log('완성')
   });
-  
-  setData로 선언한 내용 계속해서 랜더링 가능하도록 
-  app..setData({
+  var app2 = new dataBind({
+    el:'wrap2',
+    data:{
+      dataNone : '없음',// data없을 때 디폴트 정하기
+      list01 : 'app',// 데이터 수정 없이 들어갈 때
+      list02 : '3333',
+      list03 : 'list입니다.',
+      list04 : 'list04입니다.',
+      class01: 'class01',
+      bg01 : 'background-color:yellow;',
+      setClass :''
+    },
+    computed:{
+      renderFun: function (data) {
+        return data+'render';
+      }
+    }
+  },function(data){
+    // 데이터 모두 들어가고 나서 실행되는 이벤트
+    console.log('완성')
+  });
+/!*
+app.setData({
   'list02' : 'dsfjkl',
   'setClass' : 'setClass',
   'bg01' : 'background-color:blue;'
+
 })
+* *!/*/
