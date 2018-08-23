@@ -10,36 +10,86 @@ var dataBind = function(obj, endFun){
   this.data = obj.data;
   this.computed = obj.computed;
   this.endReturn = endFun;
+  this.template = obj.template;
+  
+  // render
+  this.dataRender = function(sliceText,repeatObj){
+    var renderFun,
+        renderFunSet,
+        renderData,
+        renderList,
+        sliceFirst,
+        sliceLast,
+        setRenderData,
+        repeatRenderObj=repeatObj, repeatObjIndex,repeatObjIndex,repeatObjName;
+    sliceText = sliceText.split('}}');
+    sliceFirst = sliceText[0].trim();
+    sliceLast = sliceText[1];
+    this.computed.normalFun = function(data){return data};
+
+    if(sliceFirst.indexOf('(') > 0 ){
+      renderList = sliceFirst.split('(')
+      renderData = renderList[1].replace(')','').trim();
+      renderFun = renderList[0].trim();
+      setRenderData = this.data[renderData];
+    }else if(typeof (repeatRenderObj) =='object'){
+      repeatObjName = repeatRenderObj['name'];
+      repeatObjIndex = repeatRenderObj['index'];
+      setRenderData = this.data[repeatObjName]['data'][repeatObjIndex][sliceFirst];
+      renderFunSet = this.data[repeatObjName]['render'][sliceFirst];
+      renderFun =  renderFunSet?renderFunSet :'normalFun';
+    }else{
+      renderFun = 'normalFun';
+      setRenderData = this.data[sliceFirst]
+    }
+    return setRenderData ? this.computed[renderFun](setRenderData) + sliceLast : this.data['dataNone'] + sliceLast;
+  }
+
+  this.repeatRender = function(dataObj, templateName){
+    var data = this['data'][dataObj]['data'],
+        dataRender = this['data'][dataObj]['render'],
+        template = this.template[templateName],itemObj,dataString,renderArr,renderDataObj,returnArr=[];
+
+    for(var i = 0 ;i<data.length; i++){
+      itemObj = data[i];
+      renderArr = [];
+      templateList = template.indexOf('}}')>0 ?  template.split('{{') : template;
+      for(var j = 0 ;j<templateList.length; j++){
+        renderDataObj ={ name:dataObj };
+        renderDataObj.index = i;
+        if(templateList[j].indexOf('}}')>0){
+          templateList[j] = this.dataRender(templateList[j],renderDataObj)
+        }
+
+      }
+      returnArr.push(templateList.join(''))
+    }
+    return returnArr.join('');
+  }
+
   this.render=function(){
     var domList,
         sliceText,
         sliceFirst,
         sliceLast,
-        renderFun,
-        renderData,
-        renderList,
+        repeatRenderObj,
         dom = document.getElementById(this.el), domHtml = dom.innerHTML;
     this.data['dataNone'] = this.data['dataNone'] ? this.data['dataNone'] : '';
     if(this.dom.indexOf('{{') > 0){
       domList = this.dom.split('{{');
+
       for(var i = 0;i<domList.length ; i++){
         if(domList[i].indexOf('}}') > 0){
           // 객체명과 text 분리
-          sliceText = domList[i].split('}}');
-          sliceFirst = sliceText[0].trim();
-          sliceLast = sliceText[1];
-          this.computed.normalFun = function(data){return data};
-          if(sliceFirst.indexOf('(') > 0 ){
-            renderList = sliceFirst.split('(')
-            renderData = renderList[1].replace(')','').trim();
-            renderFun = renderList[0].trim();
-          }else{
-            renderFun = 'normalFun';
-            renderData = sliceFirst;
+          if(domList[i].indexOf('[for]') > 0 ){
+            repeatRenderObj = domList[i].split('[for]');
+            domList[i] = this.repeatRender(repeatRenderObj[0],repeatRenderObj[1].split('}}')[0]);
+          }else {
+            domList[i] = this.dataRender(domList[i]);
           }
-          domList[i] = this.data[renderData] ? this.computed[renderFun](this.data[renderData]) + sliceLast :this.data['dataNone'] + sliceLast;
         }
       }
+
       dom.innerHTML = domList.join('');
       if(typeof(this.endReturn) =='function'){
         this.endReturn();
