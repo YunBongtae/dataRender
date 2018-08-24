@@ -120,10 +120,11 @@ dataBind.prototype.getData = function(name){
 }
 
 // 데이터 넣기
-dataBind.prototype.setData = function(obj){
+dataBind.prototype.setData = function(obj,endFun){
   for(var item in obj){
     this.data[item] = obj[item];
   }
+  this.endReturn = endFun;
   this.render();
   return this.data;
 }
