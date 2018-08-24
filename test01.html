@@ -1,130 +1,427 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
-	<meta name="format-detection" content="telephone=no">
-<style>
-	*{margin:0; padding:0;}
-html,body{width:100%; height:100%;}
-.wrap { position:relative; top:0; left:0; }
-  .iframePopupSet #wrap{ display: none; visibility: hidden;}
-  .iframePopupSet .wrap-box { display: block;  z-index:100; }
-  .popupHide  { position:fixed; top:20px; left:20px; z-index: 1000 }
-  .wrap-box { display:none;  top:0; left:0; width:100%; height:100% }
-  .app.setClass { color:blue; }
-  .app { color: red;}
-  .app2 { color: #555;}
-  .class01 { border:1px solid #444; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+  <meta name="format-detection" content="telephone=no">
+  <link href="prism.css" rel="stylesheet" />
+  <style>
+    /* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed,
+    figure, figcaption, footer, header, hgroup,
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font: inherit;
+      vertical-align: baseline;
+    }
+    /* HTML5 display-role reset for older browsers */
+    article, aside, details, figcaption, figure,
+    footer, header, hgroup, menu, nav, section {
+      display: block;
+    }
+    body {
+      line-height: 1;
+    }
+    ol, ul {
+      list-style: none;
+    }
+    blockquote, q {
+      quotes: none;
+    }
+    blockquote:before, blockquote:after,
+    q:before, q:after {
+      content: '';
+      content: none;
+    }
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+
+    .wrap { position:relative; top:0; left:0; }
+    .iframePopupSet #wrap{ display: none; visibility: hidden;}
+    .iframePopupSet .wrap-box { display: block;  z-index:100; }
+    .popupHide  { position:fixed; top:20px; left:20px; z-index: 1000 }
+    .wrap-box { display:none;  top:0; left:0; width:100%; height:100% }
+    .app.setClass { color:blue; }
+    .app { color: red;}
+    .app2 { color: #555;}
+    .app.change { color:blue; }
+    .class01 { border:1px solid #444; }
+    .test01 { background:#444; color: #fff; overflow-x: auto;}
+    .pa10 { padding: 10px 0; }
+    .pt20 { padding:20px 0 10px 0; }
+    .border-box { border: 1px solid #00b2ff; padding:10px; line-height:1.3; }
+    .color01 { color:#00BFFF }
+    .color02 { color:#01DF3A }
+    .color03 { color:#B40486 }
+    .color04 { color:#0B6121 }
+    .color05 { color:#0101DF }
+
+    .box { padding:20px 20px 50px; }
+    .box:after { content:''; display: table; clear:both; }
+    .box .inner-box{ float:left; width: 50%; padding-right:10px; box-sizing:border-box; overflow-y: auto;
+      height: 500px;}
+    .box .inner-box+.inner-box{ padding:0 0 0 10px; }
+  </style>
 </head>
+<script src="dataSet.js"></script>
 
 <body>
+<div class="box">
+  <h3 class="pt20">1. 소개</h3>
+  <div class="border-box">
+    1. 객체형태로 선언하여 데이터 바인딩을 할 수 있도록 만들어진 라이브러리입니다.<br>
+    2. vue.js 처럼 라이브러리 형태로 제작이 되었으며<br>
+    3. 페이지 내에서 컴포던트를 나누어 랜더링이 가능하며 수정시에도 부분 랜더링을 통해 dom의 부하를 줄일 수 있습니다.<br>
+    4. 데이터에 따라서 변경이 가능하도록 작업이 되어있습니다.<br>
 
-<div id="wrap">
-  <h2 class="">부분 랜더링이 가능한 페이지 작업</h2>
- <div class="{{list01}}">
-  제목 : {{renderFun(list03)}}<br>
-   제목 : 리스트 입니다 {{list03}}
- </div>
-  <div class="{{class01}}">
-    <button onclick="{{dataClick}}">버튼 1</button>
-    <button onclick="{{dataClick}}">버튼 2</button>
-    <button onclick="{{dataClick}}">버튼 3</button>
-    <button onclick="{{dataClick}}">버튼 4</button>
-    <button onclick="{{dataClick}}">버튼 5</button>
-  </div>
-
-  <div class="{{list01}} {{setClass}}" style="{{bg01}}">
-    색상변경됩니다.
   </div>
 </div>
 
-<div id="wrap2">
-  <div class="{{list01}}">
-    제목 :  {{renderFun(list03)}}<br>
-    제목 : 리스트 입니다 {{list03}}
-  </div>
-  <div class="{{class01}}">
-    리스트 입니다 {{list04}}<br>
-  </div>
 
-  <div class="{{list01}} {{setClass}}" style="{{bg01}}">
-    색상변경됩니다.
+<div class="box">
+  <div class="inner-box">
+    <h3 class="pa20">2. 기본 html 구조 및 스크립트 선언</h3>
+    <pre><code class="language-html">
+  <!-- html 구현코드 -->
+  <div id="wrap">
+    <h4 class="{{list01}}">부분 랜더링이 {{list01}} 가능한 페이지 작업</h4>
+    <div class="">
+      데이터 없을 때 디폴트 값 : {{ class10 }}
+    </div>
+    <div class="">
+      데이터 수정할 수 있는 함수형태 : {{renderFun(list01)}}<br>
+    </div>
+    <div>
+      데이터 값에 따라 (true,false) {{renderFun2(boxData)}}
+    </div>
+  </div>
+<div class="pa10"> <button onclick="change01()"> setData 테스트</button></div>
+</code></pre>
+
+    <pre><code class="language-js">
+  // script 구현코드
+   var app01 = new dataBind({
+      el:'wrap',
+      data:{
+        dataNone : '없음',// data없을 때 디폴트 정하기 없으면 ''
+        list01 : 'app',// 데이터 수정 없이 들어갈 때
+        list02 : '3333',
+        class01: 'class01',
+        boxData: true
+      },
+      computed:{ // 재사용 가능한 메소드 객체
+        renderFun: function (data) {
+          return data+'render 되었습니다.';
+        },
+        renderFun2: function (data) {
+          var returnData = data ? '<span>사실입니다.</span>' : '<span>거짓입니다.</span>';
+          return returnData;
+        }
+      }
+    },function(data){
+      // 데이터 모두 들어가고 나서 실행되는 이벤트
+      console.log('완성')
+    });
+  var change01= function(){
+      app02.setData({
+        'list01' : 'app change',
+        'list02' : '3333 change',
+        'class01' : 'class01 change'
+      })
+    }
+</code></pre>
+  </div>
+  <div class="inner-box">
+    <h3 class="pt20">기본 실제 구동화면</h3>
+    <div id="app02" class="border-box">
+      <h2 class="{{list01}}">부분 랜더링이 {{list01}} 가능한 페이지 작업</h2>
+      <div class="">
+        데이터 없을 때 : {{ class10 }}
+      </div>
+      <div class="">
+        데이터 수정할 수 있는 함수 : {{renderFun(list01)}}<br>
+      </div>
+      <div>
+        데이터 값에 따라 (true,false) {{renderFun2(boxData)}}
+      </div>
+    </div>
+    <script>
+      var app02 = new dataBind({
+        el:'app02',
+        data:{
+          dataNone : '없음',// data없을 때 디폴트 정하기 없으면 ''
+          list01 : 'app',// 데이터 수정 없이 들어갈 때
+          list02 : '3333',
+          class01: 'class01',
+          boxData: true
+        },
+        computed:{ // 재사용 가능한 메소드 객체
+          renderFun: function (data) {
+            return data+'render 되었습니다.';
+          },
+          renderFun2: function (data) {
+            var returnData = data ? '<span>사실입니다.</span>' : '<span>거짓입니다.</span>';
+            return returnData;
+          }
+        }
+      },function(data){
+        // 데이터 모두 들어가고 나서 실행되는 이벤트
+        console.log('완성')
+      });
+      var change01= function(){ // 버튼 클릭시 데이터 변경
+        app02.setData({
+          'list01' : 'app change',
+          'list02' : '3333 change',
+          'class01' : 'class01 change'
+        })
+      }
+    </script>
+
+    <h3 class="pt20">데이터 바인딩 후에 수정 기능</h3>
+    <div class="pa10"> <button onclick="change01()"> setData 테스트</button></div>
   </div>
 </div>
 
-<script src="dataSet.js"></script>
-<script>
-  var dataClick = function(){
-    app.setData({
-      'list02' : 'dsfjkl',
-      'list01' : 'app2',
-      'setClass' : 'setClass',
-      'bg01' : 'background-color:blue;'
+<div class="box">
+  <div class="inner-box">
+    <h3 class="pt20">3. 확장 구현 html 구조 및 스크립트 선언</h3>
+    <pre><code class="language-html">
+  <!-- html 구현코드 -->
+   <div id="app03">
+    <h2 class="{{class01}} {{list01}}">부분 랜더링이 {{list01}} 가능한 페이지 작업</h2>
 
-    })
-  };
-  var dataClick2 = function(){
-    app.setData({
-      'list01' : 'app',
-      'list02' : 'dsfjkl',
-      'setClass' : 'setClass',
-      'bg01' : 'background-color:blue;'
+    <div class="" style="{{style}}">
+      데이터 수정할 수 있는 함수 : {{renderFun1(list01)}}<br><!-- 설정해놓은 함수로도 데이터 수정하여 넣을 수 있음 -->
+    </div>
+    <div class="">
+      데이터 수정할 수 있는 함수 : {{renderFun2(list01)}}<br>
+    </div>
+    <ul>
+      {{listArr[for]tep}}  //배열로도 선언 가능함 (listArr- 배열데이터 , tep - html 템플릿)
+    </ul>
+  </div>
+<div class="pa10"> <button onclick="change02()"> 데이터 변경2 테스트</button></div>
+<div class="pa10"> <button onclick="change03()"> 데이터 변경3 테스트</button></div>
+</code></pre>
+    <pre><code class="language-js">
+  // script 구현코드
 
-    })
-  };
-  var app = new dataBind({
-    el:'wrap',
-    data:{
-      dataNone : '없음',// data없을 때 디폴트 정하기 없으면 ''
-      list01 : 'app',// 데이터 수정 없이 들어갈 때
-      list02 : '3333',
-      list03 : 'list입니다.',
-      list04 : 'list04입니다.',
-      class01: 'class01',
-      bg01 : 'background-color:yellow;',
-      setClass :'',
-      dataClick:'dataClick()'
-    },
-    computed:{
-      renderFun: function (data) {
-        return data+'render 되었습니다.';
+    var app03 = new dataBind({
+      el:'app03',
+      data:{
+        dataNone : '없음',// data없을 때 디폴트 정하기 (없으면 '')
+        list01 : 'app',// 데이터 수정 없이 들어갈 때
+        list02 : '3333',
+        class01: 'classtype01',
+        style : '',
+        listArr :{
+          data :[
+              {name01:'이름1', age:'13',color:'color05'},
+              {name01:'이름2', age:'14',color:'color04'},
+              {name01:'이름3', age:'15',color:'color03'},
+              {name01:'이름4', age:'16',color:'color02'},
+              {name01:'이름5', age:'17',color:'color01'},
+              {name01:'이름6', age:'17',color:'color01'},
+              {name01:'이름7', age:'17',color:'color03'},
+              {name01:'이름8', age:'17',color:'color04'},
+              {name01:'이름9', age:'17',color:'color05'},
+              {name01:'이름5', age:'17',color:'color01'},
+              {name01:'이름5', age:'17',color:'color01'}
+            ],
+          render:{
+            name01:'arrRender', // 사용될 render function name (computed 객체 메소드)
+            age:'arrRender2', // 사용될 render function name (computed 객체 메소드)
+          }
+        }
+      },
+      computed:{ // 재사용 가능한 메소드 객체
+        renderFun1: function (data) {
+          return data+' renderFun로 변경 되었습니다.';
+        },
+        renderFun2: function (data) {
+          return data+' renderFun2로 변경 되었습니다.';
+        },
+        arrRender: function(data){
+          return '나의 이름은 :'+data;
+        },
+        arrRender2: function(data){
+          return data+' 세 입니다.';
+        }
+      },
+      template : {
+        tep:'<li class="{{color}}"><span>{{name01}}</span><span>{{name03}}</span><span>{{age}}</span></li>'
       }
-    }
-  },function(data){
-    // 데이터 모두 들어가고 나서 실행되는 이벤트
-    console.log('완성')
-  });
-  var app2 = new dataBind({
-    el:'wrap2',
-    data:{
-      dataNone : '없음',// data없을 때 디폴트 정하기
-      list01 : 'app',// 데이터 수정 없이 들어갈 때
-      list02 : '3333',
-      list03 : 'list입니다.',
-      list04 : 'list04입니다.',
-      class01: 'class01',
-      bg01 : 'background-color:yellow;',
-      setClass :''
-    },
-    computed:{
-      renderFun: function (data) {
-        return data+'render';
-      }
-    }
-  },function(data){
-    // 데이터 모두 들어가고 나서 실행되는 이벤트
-    console.log('완성')
-  });
-/*
-app.setData({
-  'list02' : 'dsfjkl',
-  'setClass' : 'setClass',
-  'bg01' : 'background-color:blue;'
+    },function(data){
+      // 데이터 모두 들어가고 나서 실행되는 이벤트
+      console.log('완성')
+    });
+var change02= function(){// 클릭시 발생하는 함수
+      app03.setData({
+        'list01' : 'app change02',
+        'list02' : '3333 change02',
+        'class01' : 'class01 change02',
+        'style':'background--color:blue; color:#fff;',
+        listArr :{
+          data :[
+            {name01:'이름1', age:'13',color:'color05'},
+            {name01:'이름2', age:'14',color:'color04'},
+            {name01:'이름3', age:'15',color:'color03'},
+            {name01:'이름4', age:'16',color:'color02'},
+            {name01:'이름5', age:'17',color:'color01'}
+          ],
+          render:{
+            name01:'arrRender2', // 사용될 render function name (computed 객체 메소드)
+            age:'arrRender', // 사용될 render function name (computed 객체 메소드)
+          }
+        }
 
-})
-* */
-</script>
+      })
+    }
+    var change03= function(){//클릭시 발생하는 함수
+      app03.setData({
+        'list01' : 'app change03',
+        'list02' : '3333 change03',
+        'class01' : 'class01 change03',
+        'style':'border:1px solid #red; color:red;'
+      })
+    }
+</code></pre>
+  </div>
+  <div class="inner-box">
+    <h3 class="pt20">실제 구현 화면</h3>
+    <div id="app03" class="border-box">
+      <h2 class="{{class01}} {{list01}}">부분 랜더링이 {{list01}} 가능한 페이지 작업</h2>
+
+      <div class="" style="{{style}}">
+        데이터 수정할 수 있는 함수 : {{renderFun1(list01)}}<br>
+      </div>
+      <div class="">
+        데이터 수정할 수 있는 함수 : {{renderFun2(list01)}}<br>
+      </div>
+      <ul>
+        {{listArr[for]tep}}
+      </ul>
+    </div>
+    <h3 class="pt20">데이터 바인딩 후에 수정</h3>
+    <div class="pa10"> <button onclick="change02()"> 데이터 변경2 테스트</button></div>
+    <div class="pa10"> <button onclick="change03()"> 데이터 변경3 테스트</button></div>
+    <script src="prism.js"></script>
+    <script>
+      var htmlList = document.getElementsByClassName('language-html');
+      var html;
+      for(var i = 0 ;i< htmlList.length ; i++){
+        htmlList[i].innerHTML = htmlList[i].innerHTML.replace(/</gi,"&lt;").replace(/>/gi,"&gt;")
+      }
+    </script>
+    <script>
+
+      var app03 = new dataBind({
+        el:'app03',
+        data:{
+          dataNone : '없음',// data없을 때 디폴트 정하기 없으면 ''
+          list01 : 'app',// 데이터 수정 없이 들어갈 때
+          list02 : '3333',
+          class01: 'classtype01',
+          style : '',
+          listArr :{
+            data :[
+              {name01:'이름1', age:'13',color:'color05'},
+              {name01:'이름2', age:'14',color:'color04'},
+              {name01:'이름3', age:'15',color:'color03'},
+              {name01:'이름4', age:'16',color:'color02'},
+              {name01:'이름5', age:'17',color:'color01'},
+              {name01:'이름6', age:'17',color:'color01'},
+              {name01:'이름7', age:'17',color:'color03'},
+              {name01:'이름8', age:'17',color:'color04'},
+              {name01:'이름9', age:'17',color:'color05'},
+              {name01:'이름5', age:'17',color:'color01'},
+              {name01:'이름5', age:'17',color:'color01'}
+            ],
+            render:{
+              name01:'arrRender', // 사용될 render function name (computed 객체 메소드)
+              age:'arrRender2', // 사용될 render function name (computed 객체 메소드)
+            }
+          }
+        },
+        computed:{ // 재사용 가능한 메소드 객체
+          renderFun1: function (data) {
+            return data+' renderFun로 변경 되었습니다.';
+          },
+          renderFun2: function (data) {
+            return data+' renderFun2로 변경 되었습니다.';
+          },
+          arrRender: function(data){
+            return '나의 이름은 :'+data;
+          },
+          arrRender2: function(data){
+            return data+' 세 입니다.';
+          }
+        },
+        template : {
+          tep:'<li class="{{color}}"><span>{{name01}}</span><span>{{name03}}</span><span>{{age}}</span></li>'
+        }
+      },function(data){
+        // 데이터 모두 들어가고 나서 실행되는 이벤트
+        console.log('3 완성')
+      });
+
+      var change02= function(){
+        app03.setData({
+          'list01' : 'app change02',
+          'list02' : '3333 change02',
+          'class01' : 'class01 change02',
+          'style':'background-color:blue; color:#fff;',
+          listArr :{
+            data :[
+              {name01:'이름1', age:'13',color:'color05'},
+              {name01:'이름2', age:'14',color:'color04'},
+              {name01:'이름3', age:'15',color:'color03'},
+              {name01:'이름4', age:'16',color:'color02'},
+              {name01:'이름5', age:'17',color:'color01'}
+            ],
+            render:{
+              name01:'arrRender2', // 사용될 render function name (computed 객체 메소드)
+              age:'arrRender', // 사용될 render function name (computed 객체 메소드)
+            }
+          }
+
+        })
+      }
+
+      var change03= function(){
+        app03.setData({
+          'list01' : 'app change03',
+          'list02' : '3333 change03',
+          'class01' : 'class01 change03',
+          'style':'border:1px solid #red; color:red;'
+        })
+      }
+    </script>
+  </div>
+</div>
+
 </body>
+
+
+
+
 </html>
