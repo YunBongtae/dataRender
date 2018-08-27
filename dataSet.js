@@ -1,5 +1,7 @@
 /**
- * 데이터 바인딩 2018.08.21
+ * 데이터 바인딩 
+ * 만든 날짜 2018.08.21
+ * 최종 수정 날짜 2018.08.27
  * License: 없음
  */
 
@@ -11,7 +13,11 @@ var dataBind = function(obj, endFun){
   this.computed = obj.computed;
   this.endReturn = endFun;
   this.template = obj.template;
-  
+
+  this.renderTemplate = {
+
+  }
+
   // render
   this.dataRender = function(sliceText,repeatObj){
     var renderFun,
@@ -83,13 +89,12 @@ var dataBind = function(obj, endFun){
           // 객체명과 text 분리
           if(domList[i].indexOf('[for]') > 0 ){
             repeatRenderObj = domList[i].split('[for]');
-            domList[i] = this.repeatRender(repeatRenderObj[0],repeatRenderObj[1].split('}}')[0]);
+            domList[i] = domList[i].replace('>','>'+this.repeatRender(repeatRenderObj[0],repeatRenderObj[1].split('}}')[0]));
           }else {
             domList[i] = this.dataRender(domList[i]);
           }
         }
       }
-
       dom.innerHTML = domList.join('');
       if(typeof(this.endReturn) =='function'){
         this.endReturn();

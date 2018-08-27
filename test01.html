@@ -80,6 +80,14 @@
     .box .inner-box{ float:left; width: 50%; padding-right:10px; box-sizing:border-box; overflow-y: auto;
       height: 500px;}
     .box .inner-box+.inner-box{ padding:0 0 0 10px; }
+    .table  { width: 100%; }
+    .table thead { background: #e7f1fc; }
+    .table thead tr th { position: relative; padding: 12px 10px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; font-size: 16px; color: #182f5d; }
+    .table thead tr th:after { content:''; position: absolute; top: 50%; left: 0; width: 1px; height: 14px; margin-top: -7px; background: #ccc; }
+    .table thead tr th:first-child:after { display: none; }
+    .table tbody tr td { padding: 12px 10px; font-size: 14px; color: #303030; text-align: left; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; line-height: 16px; }
+    .table tbody tr td:last-child { border-right: none; }
+
   </style>
 </head>
 <script src="dataSet.js"></script>
@@ -215,9 +223,19 @@
     <div class="">
       데이터 수정할 수 있는 함수 : {{renderFun2(list01)}}<br>
     </div>
-    <ul>
-      {{listArr[for]tep}}  //배열로도 선언 가능함 (listArr- 배열데이터 , tep - html 템플릿)
+    <ul list-for="{{listArr[for]tep}}" class="ffff">
     </ul>
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th>이름</th>
+        <th>나이</th>
+      </tr>
+      </thead>
+      <tbody list-for="{{listArr[for]tep2}}">
+      </tbody>
+    </table>
   </div>
 <div class="pa10"> <button onclick="change02()"> 데이터 변경2 테스트</button></div>
 <div class="pa10"> <button onclick="change03()"> 데이터 변경3 테스트</button></div>
@@ -268,7 +286,8 @@
         }
       },
       template : {
-        tep:'<li class="{{color}}"><span>{{name01}}</span><span>{{name03}}</span><span>{{age}}</span></li>'
+        tep:'<li class="{{color}}"><span>{{name01}}</span><span>{{name03}}</span><span>{{age}}</span></li>',
+        tep2:'<tr><td>{{name01}}</td><td>{{age}}</td></tr>'
       }
     },function(data){
       // 데이터 모두 들어가고 나서 실행되는 이벤트
@@ -317,9 +336,19 @@ var change02= function(){// 클릭시 발생하는 함수
       <div class="">
         데이터 수정할 수 있는 함수 : {{renderFun2(list01)}}<br>
       </div>
-      <ul>
-        {{listArr[for]tep}}
+      <ul list-for="{{listArr[for]tep}}" class="ffff">
       </ul>
+
+      <table class="table">
+        <thead>
+        <tr>
+          <th>이름</th>
+          <th>나이</th>
+        </tr>
+        </thead>
+        <tbody list-for="{{listArr[for]tep2}}">
+        </tbody>
+      </table>
     </div>
     <h3 class="pt20">데이터 바인딩 후에 수정</h3>
     <div class="pa10"> <button onclick="change02()"> 데이터 변경2 테스트</button></div>
@@ -377,7 +406,8 @@ var change02= function(){// 클릭시 발생하는 함수
           }
         },
         template : {
-          tep:'<li class="{{color}}"><span>{{name01}}</span><span>{{name03}}</span><span>{{age}}</span></li>'
+          tep:'<li class="{{color}}"><span>{{name01}}</span><span>{{name03}}</span><span>{{age}}</span></li>',
+          tep2:'<tr><td>{{name01}}</td><td>{{age}}</td></tr>'
         }
       },function(data){
         // 데이터 모두 들어가고 나서 실행되는 이벤트
