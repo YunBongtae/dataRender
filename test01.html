@@ -87,13 +87,16 @@
     .table thead tr th:first-child:after { display: none; }
     .table tbody tr td { padding: 12px 10px; font-size: 14px; color: #303030; text-align: left; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; line-height: 16px; }
     .table tbody tr td:last-child { border-right: none; }
-
+.list li {border-bottom: 1px solid #00bca4; padding:5px 0;}
+.list li:before { content:'⦿'; display: block; float: left;     margin: -1px 5px 0 0; }
+.list li:after {content: ''; display:table; clear:both;}
   </style>
 </head>
 <script src="dataSet.js"></script>
 
 <body>
 <div class="box">
+  <!-- 소개 시작 -->
   <h3 class="pt20">1. 소개</h3>
   <div class="border-box">
     1. 객체형태로 선언하여 데이터 바인딩을 할 수 있도록 만들어진 라이브러리입니다.<br>
@@ -104,7 +107,7 @@
   </div>
 </div>
 
-
+<!-- 기본구조 시작 -->
 <div class="box">
   <div class="inner-box">
     <h3 class="pa20">2. 기본 html 구조 및 스크립트 선언</h3>
@@ -160,7 +163,7 @@
   </div>
   <div class="inner-box">
     <h3 class="pt20">기본 실제 구동화면</h3>
-    <div id="app02" class="border-box">
+    <div id="app02-2" class="border-box">
       <h2 class="{{list01}}">부분 랜더링이 {{list01}} 가능한 페이지 작업</h2>
       <div class="">
         데이터 없을 때 : {{ class10 }}
@@ -174,7 +177,7 @@
     </div>
     <script>
       var app02 = new dataBind({
-        el:'app02',
+        el:'app02-2',
         data:{
           dataNone : '없음',// data없을 때 디폴트 정하기 없으면 ''
           list01 : 'app',// 데이터 수정 없이 들어갈 때
@@ -209,6 +212,8 @@
   </div>
 </div>
 
+
+<!-- 확장구조 시작 -->
 <div class="box">
   <div class="inner-box">
     <h3 class="pt20">3. 확장 구현 html 구조 및 스크립트 선언</h3>
@@ -327,7 +332,7 @@ var change02= function(){// 클릭시 발생하는 함수
   </div>
   <div class="inner-box">
     <h3 class="pt20">실제 구현 화면</h3>
-    <div id="app03" class="border-box">
+    <div id="app03-2" class="border-box">
       <h2 class="{{class01}} {{list01}}">부분 랜더링이 {{list01}} 가능한 페이지 작업</h2>
 
       <div class="" style="{{style}}">
@@ -336,7 +341,7 @@ var change02= function(){// 클릭시 발생하는 함수
       <div class="">
         데이터 수정할 수 있는 함수 : {{renderFun2(list01)}}<br>
       </div>
-      <ul list-for="{{listArr[for]tep}}" class="ffff">
+      <ul list-for="{{listArr[for]tep}}" class="list">
       </ul>
 
       <table class="table">
@@ -353,18 +358,10 @@ var change02= function(){// 클릭시 발생하는 함수
     <h3 class="pt20">데이터 바인딩 후에 수정</h3>
     <div class="pa10"> <button onclick="change02()"> 데이터 변경2 테스트</button></div>
     <div class="pa10"> <button onclick="change03()"> 데이터 변경3 테스트</button></div>
-    <script src="prism.js"></script>
-    <script>
-      var htmlList = document.getElementsByClassName('language-html');
-      var html;
-      for(var i = 0 ;i< htmlList.length ; i++){
-        htmlList[i].innerHTML = htmlList[i].innerHTML.replace(/</gi,"&lt;").replace(/>/gi,"&gt;")
-      }
-    </script>
     <script>
 
       var app03 = new dataBind({
-        el:'app03',
+        el:'app03-2',
         data:{
           dataNone : '없음',// data없을 때 디폴트 정하기 없으면 ''
           list01 : 'app',// 데이터 수정 없이 들어갈 때
@@ -407,7 +404,7 @@ var change02= function(){// 클릭시 발생하는 함수
         },
         template : {
           tep:'<li class="{{color}}"><span>{{name01}}</span><span>{{name03}}</span><span>{{age}}</span></li>',
-          tep2:'<tr><td>{{name01}}</td><td>{{age}}</td></tr>'
+          tep2:'<tr><td class="{{color}}">{{name01}}</td><td>{{age}}</td></tr>'
         }
       },function(data){
         // 데이터 모두 들어가고 나서 실행되는 이벤트
@@ -422,11 +419,11 @@ var change02= function(){// 클릭시 발생하는 함수
           'style':'background-color:blue; color:#fff;',
           listArr :{
             data :[
-              {name01:'이름1', age:'13',color:'color05'},
-              {name01:'이름2', age:'14',color:'color04'},
-              {name01:'이름3', age:'15',color:'color03'},
-              {name01:'이름4', age:'16',color:'color02'},
-              {name01:'이름5', age:'17',color:'color01'}
+              {name01:'이름1 change', age:'23',color:'color05'},
+              {name01:'이름2 change', age:'24',color:'color04'},
+              {name01:'이름3 change', age:'25',color:'color03'},
+              {name01:'이름4 change', age:'26',color:'color02'},
+              {name01:'이름5 change', age:'27',color:'color01'}
             ],
             render:{
               name01:'arrRender2', // 사용될 render function name (computed 객체 메소드)
@@ -448,6 +445,120 @@ var change02= function(){// 클릭시 발생하는 함수
     </script>
   </div>
 </div>
+
+<!-- 감시기능 추가 -->
+<div class="box">
+  <div class="inner-box">
+    <h3 class="pt20">4. input 감시 기능</h3>
+    <pre><code class="language-html">
+  <!-- html 구현코드 -->
+   <div id="app04">
+     <div><input type="text" data-watch="input01" value="{{input01}}"></div>
+     <div>
+       <input type="radio" name="radio01" data-watch="radio01" id="radio01" {{radio01}}><label for="radio01">radio01</label>
+       <input type="radio" name="radio01" data-watch="radio02" id="radio02" {{radio02}}><label  for="radio02">radio02</label>
+     </div>
+
+     <div><input type="checkbox" {{checkbox01}} data-watch="checkbox01"><input type="checkbox" {{checkbox02}} data-watch="checkbox02"></div>
+     <div><textarea data-watch="textarea">{{textarea}}</textarea></div>
+  </div>
+<div class="pa10"> <button onclick="change04()"> 데이터 변경2 테스트</button></div>
+</code></pre>
+    <pre><code class="language-js">
+  // script 구현코드
+
+    var app04 = new dataBind({
+      el:'app04',
+      data:{
+        dataNone : '없음',// data없을 때 디폴트 정하기 (없으면 '')
+        input01: '우리나라만세',
+        radio01 : 'checked',
+        radio02 : '',
+      checkbox01 : '',
+      checkbox02: 'checked',
+        textarea : '텍스트 테스트입니다.'
+      },
+      computed:{ // 재사용 가능한 메소드 객체
+        renderFun1: function (data) {
+          return data+' renderFun로 변경 되었습니다.';
+        },
+
+      }
+    },function(data){
+      // 데이터 모두 들어가고 나서 실행되는 이벤트
+      console.log('완성')
+    });
+    var change04= function(){//클릭시 발생하는 함수
+      app04.setData({
+        input01: '우리나라만세 우리나라만세',
+        radio01 : 'checked',
+        radio02 : '',
+        checkbox01 : '',
+        checkbox02: '',
+        textarea : '텍스트 테스트입니다. 다시 해봅니다.'
+      })
+    }
+</code></pre>
+  </div>
+  <div class="inner-box">
+    <div class="inner-box">
+      <h3 class="pt20">실제 구현테스트</h3>
+      <!-- html 구현코드 -->
+       <div id="app04-2">
+         <div><input type="text" data-watch="input01" value="{{input01}}"></div>
+         <div>
+           <input type="radio" name="radio01" data-watch="radio01" id="radio01" {{radio01}}><label for="radio01">radio01</label>
+           <input type="radio" name="radio01" data-watch="radio02" id="radio02" {{radio02}}><label  for="radio02">radio02</label>
+         </div>
+
+         <div><input type="checkbox" {{checkbox01}} data-watch="checkbox01"><input type="checkbox" {{checkbox02}} data-watch="checkbox02"></div>
+         <div><textarea data-watch="textarea">{{textarea}}</textarea></div>
+      </div>
+    <div class="pa10"> <button onclick="change04()"> 데이터 변경2 테스트</button></div>
+    <script>
+      var app04 = new dataBind({
+        el:'app04-2',
+        data:{
+          dataNone : '',// data없을 때 디폴트 정하기 (없으면 '')
+          input01: '우리나라만세',
+          radio01 : 'checked',
+          radio02 : '',
+          checkbox01 : '',
+          checkbox02: 'checked',
+          textarea : '텍스트 테스트입니다.'
+        },
+        computed:{ // 재사용 가능한 메소드 객체
+          renderFun1: function (data) {
+            return data+' renderFun로 변경 되었습니다.';
+          },
+
+        }
+      },function(data){
+        // 데이터 모두 들어가고 나서 실행되는 이벤트
+        console.log('완성')
+      });
+      var change04= function(){//클릭시 발생하는 함수
+        app04.setData({
+          input01: '우리나라만세 우리나라만세',
+          radio01 : 'checked',
+          radio02 : '',
+          checkbox01 : '',
+          checkbox02: '',
+          textarea : '텍스트 테스트입니다. 다시 해봅니다.'
+        })
+      }
+    </script>
+  </div>
+</div>
+
+<script src="prism.js"></script>
+<script>
+  var htmlList = document.getElementsByClassName('language-html');
+  var html;
+  for(var i = 0 ;i< htmlList.length ; i++){
+    htmlList[i].innerHTML = htmlList[i].innerHTML.replace(/</gi,"&lt;").replace(/>/gi,"&gt;")
+  }
+</script>
 
 </body>
 

@@ -1,7 +1,5 @@
 /**
- * 데이터 바인딩 
- * 만든 날짜 2018.08.21
- * 최종 수정 날짜 2018.08.27
+ * 데이터 바인딩 2018.08.21
  * License: 없음
  */
 
@@ -13,7 +11,9 @@ var dataBind = function(obj, endFun){
   this.computed = obj.computed;
   this.endReturn = endFun;
   this.template = obj.template;
+  this.watchObj ={
 
+  }
   this.renderTemplate = {
 
   }
@@ -48,9 +48,32 @@ var dataBind = function(obj, endFun){
       renderFun = 'normalFun';
       setRenderData = this.data[sliceFirst]
     }
-    return setRenderData ? this.computed[renderFun](setRenderData) + sliceLast : this.data['dataNone'] + sliceLast;
+    return setRenderData || String(setRenderData) === 'false' ? this.computed[renderFun](setRenderData) + sliceLast : this.data['dataNone'] + sliceLast;
   }
+  this.watchSet = function(){
+    var watchList = document.querySelectorAll('[data-watch]');
+    var root= this,dataName;
 
+    for(var i = 0 ;i < watchList.length; i++){
+
+      watchList[i].addEventListener('change',function(){
+        dataName = this.getAttribute('data-watch');
+        var radioName = this.getAttribute('name');
+        if(this.type =='radio'){
+          radioList = document.querySelectorAll('[name="'+radioName+'"]');
+          for(var i = 0 ;i<radioList.length ; i++){
+            root.data[radioList[i].getAttribute('data-watch')] = false;
+          }
+        }
+        if(this.type =='checkbox' || this.type =='radio'){
+          root.data[dataName]= this.checked ?  'checked':'';
+        }else{
+          root.data[dataName]= this.value;
+        }
+
+      });
+    }
+  }
   this.repeatRender = function(dataObj, templateName){
     var data = this['data'][dataObj]['data'],
         dataRender = this['data'][dataObj]['render'],
@@ -102,6 +125,7 @@ var dataBind = function(obj, endFun){
     }
   }
   this.render();
+  this.watchSet();
 }
 // data render
 //데이터 받기
@@ -131,5 +155,6 @@ dataBind.prototype.setData = function(obj,endFun){
   }
   this.endReturn = endFun;
   this.render();
+  this.watchSet();
   return this.data;
 }
