@@ -11,12 +11,6 @@ var dataBind = function(obj, endFun){
   this.computed = obj.computed;
   this.endReturn = endFun;
   this.template = obj.template;
-  this.watchObj ={
-
-  }
-  this.renderTemplate = {
-
-  }
 
   // render
   this.dataRender = function(sliceText,repeatObj){
