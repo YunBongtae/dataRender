@@ -1,5 +1,6 @@
 /**
- * 데이터 바인딩 2018.08.21
+ * 데이터 바인딩 : 2018.08.21
+ * 마지막 수정날짜 : 2018.08.28
  * License: 없음
  */
 
@@ -57,10 +58,10 @@ var dataBind = function(obj, endFun){
             root.data[radioList[i].getAttribute('data-watch')] = false;
           }
         }
-        if(this.type =='checkbox' || this.type =='radio'){
-          root.data[dataName]= this.checked ?  'checked':'';
+        if(this.type =='checkbox' || this.type == 'radio'){
+          root.data[dataName] = this.checked;
         }else{
-          root.data[dataName]= this.value;
+          root.data[dataName] = this.value;
         }
       });
     }

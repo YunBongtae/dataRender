@@ -83,7 +83,7 @@
       height: 450px; }
     .box .inner-box+.inner-box{ padding:0 0 0 10px; }
 
-    .table  { width: 100%; }
+    .table  { width: 100%; margin: 10px 0; }
     .table thead { background: #e7f1fc; }
     .table thead tr th { position: relative; padding: 12px 10px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; font-size: 16px; color: #182f5d; }
     .table thead tr th:after { content:''; position: absolute; top: 50%; left: 0; width: 1px; height: 14px; margin-top: -7px; background: #ccc; }
@@ -94,7 +94,7 @@
     .list li {border-bottom: 1px solid #00bca4; padding:5px 0;}
     .list li:before { content:'⦿'; display: block; float: left;     margin: -1px 5px 0 0; }
     .list li:after {content: ''; display:table; clear:both;}
-
+    .list li span +span{display:inline-block; margin-left:10px; }
     .input { width: 100%; height: 40px; padding: 0 10px; border: 1px solid #cdcdcd; background-color: #f7f7f7; -webkit-box-sizing: border-box; box-sizing: border-box; font-size: 18px; color: #182f5d; line-height: 1; }
     input.input::-webkit-input-placeholder { color: rgba(24, 47, 93,.5); font-size: 18px; line-height: 1; text-align: left; }
     .input:focus { border: 2px solid #2786e8; background-color: #e7f3fa; }
@@ -112,13 +112,15 @@
     .checkbox:checked, .checkbox.checkbox_on { background: url(img/checkbox_on.png) no-repeat 0 0; background-size: 24px; overflow: hidden; }
     h2.pt20{font-weight:bold; margin-bottom:10px; border-bottom: 1px solid #d4d4d4;}
     .inner-box pre[class*="language-"] {
-      padding: 20px;
+      padding: 0px 20px;
       margin: 0 0 10px 0;
     }
     .btn01 { min-width: 90px; height: 34px; line-height: 34px; border: 1px solid #118ccf; background-color: #fff; -webkit-box-sizing: border-box; box-sizing: border-box; -webkit-border-radius: 3px; border-radius: 3px; color: #118ccf; font-size: 14px; vertical-align: middle; }
     .btn01.paW { padding: 0 12px; width: auto; }
     .btn01.width01 { width: 120px; }
     .btn01+.btn01 { margin-left: 10px; }
+    .mb10 { margin-bottom: 10px; }
+
   </style>
 </head>
 <script src="dataSet.js"></script>
@@ -132,7 +134,6 @@
     2. vue.js 처럼 라이브러리 형태로 제작이 되었으며<br>
     3. 페이지 내에서 컴포던트를 나누어 랜더링이 가능하며 수정시에도 부분 랜더링을 통해 dom의 부하를 줄일 수 있습니다.<br>
     4. 데이터에 따라서 변경이 가능하도록 작업이 되어있습니다.<br>
-
   </div>
   <div class="pa10"></div>
 </div>
@@ -143,59 +144,59 @@
     <h3 class="pt20">구현 예제코드</h3>
     <div class="item-box">
 
-      <pre>
-        <code class="language-html">
-          <!-- html 구현코드 -->
-          <div id="wrap">
-            <h4 class="{{list01}}">부분 랜더링이 {{list01}} 가능한 페이지 작업</h4>
-            <div class="">
-              데이터 없을 때 디폴트 값 : {{ class10 }}
-            </div>
-            <div class="">
-              데이터 수정할 수 있는 함수형태 : {{renderFun(list01)}}<br>
-            </div>
-            <div>
-              데이터 값에 따라 (true,false) {{renderFun2(boxData)}}
-            </div>
-          </div>
-          <div class="pa10"><button class="btn01" onclick="change01()"> setData 테스트</button></div>
-          </code>
-      </pre>
+<pre>
+<code class="language-html">
+<!-- html 구현코드 -->
+<div id="wrap">
+  <h4 class="{{list01}}">부분 랜더링이 {{list01}} 가능한 페이지 작업</h4>
+  <div class="">
+    데이터 없을 때 디폴트 값 : {{ class10 }}
+  </div>
+  <div class="">
+    데이터 수정할 수 있는 함수형태 : {{renderFun(list01)}}<br>
+  </div>
+  <div>
+    데이터 값에 따라 (true,false) {{renderFun2(boxData)}}
+  </div>
+</div>
+<div class="pa10"><button class="btn01" onclick="change01()"> setData 테스트</button></div>
+</code>
+</pre>
 
-      <pre>
-        <code class="language-js">
-          // script 구현코드
-           var app01 = new dataBind({
-              el:'wrap',
-              data:{
-                dataNone : '없음',// data없을 때 디폴트 정하기 없으면 ''
-                list01 : 'app',// 데이터 수정 없이 들어갈 때
-                list02 : '3333',
-                class01: 'class01',
-                boxData: true
-              },
-              computed:{ // 재사용 가능한 메소드 객체
-                renderFun: function (data) {
-                  return data+'render 되었습니다.';
-                },
-                renderFun2: function (data) {
-                  var returnData = data ? '<span>사실입니다.</span>' : '<span>거짓입니다.</span>';
-                  return returnData;
-                }
-              }
-            },function(data){
-              // 데이터 모두 들어가고 나서 실행되는 이벤트
-              console.log('완성')
-            });
-          var change01= function(){
-              app02.setData({
-                'list01' : 'app change',
-                'list02' : '3333 change',
-                'class01' : 'class01 change'
-              })
-            }
-        </code>
-      </pre>
+<pre>
+<code class="language-js">
+// script 구현코드
+ var app01 = new dataBind({
+    el:'wrap',
+    data:{
+      dataNone : '없음',// data없을 때 디폴트 정하기 없으면 ''
+      list01 : 'app',// 데이터 수정 없이 들어갈 때
+      list02 : '3333',
+      class01: 'class01',
+      boxData: true
+    },
+    computed:{ // 재사용 가능한 메소드 객체
+      renderFun: function (data) {
+        return data+'render 되었습니다.';
+      },
+      renderFun2: function (data) {
+        var returnData = data ? '<span>사실입니다.</span>' : '<span>거짓입니다.</span>';
+        return returnData;
+      }
+    }
+  },function(data){
+    // 데이터 모두 들어가고 나서 실행되는 이벤트
+    console.log('완성')
+  });
+var change01= function(){
+    app02.setData({
+      'list01' : 'app change',
+      'list02' : '3333 change',
+      'class01' : 'class01 change'
+    })
+  }
+</code>
+</pre>
     </div>
   </div>
   <div class="inner-box">
@@ -257,149 +258,149 @@
   <div class="inner-box">
     <h3 class="pt20">구현 예제코드</h3>
     <div class="item-box">
-       <pre>
-         <code class="language-html">
-          <!-- html 구현코드 -->
-           <div id="app03">
-            <h2 class="{{class01}} {{list01}}">부분 랜더링이 {{list01}} 가능한 페이지 작업</h2>
+<pre>
+<code class="language-html">
+<!-- html 구현코드 -->
+<div id="app03">
+  <h2 class="{{class01}} {{list01}}">부분 랜더링이 {{list01}} 가능한 페이지 작업</h2>
+  <div class="" style="{{style}}">
+    데이터 수정할 수 있는 함수 : {{renderFun1(list01)}}<br><!-- 설정해놓은 함수로도 데이터 수정하여 넣을 수 있음 -->
+  </div>
+  <div class="">
+    데이터 수정할 수 있는 함수 : {{renderFun2(list01)}}<br>
+  </div>
+  <ul list-for="{{listArr[for]tep}}" class="list">
+  </ul>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>이름</th>
+      <th>나이</th>
+    </tr>
+    </thead>
+    <tbody list-for="{{listArr[for]tep2}}">
+    </tbody>
+  </table>
+</div>
+<div class="pa10"> <button class="btn01" onclick="change02()"> 데이터 변경 테스트</button></div>
+<div class="pa10"> <button class="btn01" onclick="change03()"> 데이터 변경 ( 리스트시작점, 갯수)  테스트</button></div>
+</code>
+</pre>
+<pre>
+<code class="language-js">
+// script 구현코드
 
-            <div class="" style="{{style}}">
-              데이터 수정할 수 있는 함수 : {{renderFun1(list01)}}<br><!-- 설정해놓은 함수로도 데이터 수정하여 넣을 수 있음 -->
-            </div>
-            <div class="">
-              데이터 수정할 수 있는 함수 : {{renderFun2(list01)}}<br>
-            </div>
-            <ul list-for="{{listArr[for]tep}}" class="ffff">
-            </ul>
+var app03 = new dataBind({
+  el:'app03',
+  data:{
+    dataNone : '없음',// data없을 때 디폴트 정하기 (없으면 '')
+    list01 : 'app',// 데이터 수정 없이 들어갈 때
+    list02 : '3333',
+    class01: 'classtype01',
+    style : '',
+    listArr :{
+      data :[
+          {name01:'이름1', age:'13',color:'color05'},
+          {name01:'이름2', age:'14',color:'color04'},
+          {name01:'이름3', age:'15',color:'color03'},
+          {name01:'이름4', age:'16',color:'color02'},
+          {name01:'이름5', age:'17',color:'color01'},
+          {name01:'이름6', age:'17',color:'color01'},
+          {name01:'이름7', age:'17',color:'color03'},
+          {name01:'이름8', age:'17',color:'color04'},
+          {name01:'이름9', age:'17',color:'color05'},
+          {name01:'이름5', age:'17',color:'color01'},
+          {name01:'이름5', age:'17',color:'color01'}
+        ],
+      render:{
+        name01:'arrRender', // 사용될 render function name (computed 객체 메소드)
+        age:'arrRender2', // 사용될 render function name (computed 객체 메소드)
+      }
+    }
+  },
+  computed:{ // 재사용 가능한 메소드 객체
+    renderFun1: function (data) {
+      return data+' renderFun로 변경 되었습니다.';
+    },
+    renderFun2: function (data) {
+      return data+' renderFun2로 변경 되었습니다.';
+    },
+    arrRender: function(data){
+      return '나의 이름은 :'+data;
+    },
+    arrRender2: function(data){
+      return data+' 세 입니다.';
+    }
+  },
+  template : {
+    tep:'<li class="{{color}}"><span>{{name01}}</span><span>{{name03}}</span><span>{{age}}</span></li>',
+    tep2:'<tr><td>{{name01}}</td><td>{{age}}</td></tr>'
+  }
+},function(data){
+  // 데이터 모두 들어가고 나서 실행되는 이벤트
+  console.log('완성')
+});
+var change02= function(){// 클릭시 발생하는 함수
+  app03.setData({
+    'list01' : 'app change02',
+    'list02' : '3333 change02',
+    'class01' : 'class01 change02',
+    'style':'background--color:blue; color:#fff;',
+    listArr :{
+      data :[
+        {name01:'이름1 change', age:'23',color:'color05'},
+        {name01:'이름2 change', age:'24',color:'color04'},
+        {name01:'이름3 change', age:'25',color:'color03'},
+        {name01:'이름4 change', age:'26',color:'color02'},
+        {name01:'이름5 change', age:'27',color:'color01'},
+        {name01:'이름6 change', age:'23',color:'color05'},
+        {name01:'이름7 change', age:'24',color:'color04'}
+      ],
+      render:{
+        name01:'arrRender2', // 사용될 render function name (computed 객체 메소드)
+        age:'arrRender', // 사용될 render function name (computed 객체 메소드)
+      }
+    }
 
-            <table class="table">
-              <thead>
-              <tr>
-                <th>이름</th>
-                <th>나이</th>
-              </tr>
-              </thead>
-              <tbody list-for="{{listArr[for]tep2}}">
-              </tbody>
-            </table>
-          </div>
-          <div class="pa10"> <button class="btn01" onclick="change02()"> 데이터 변경 테스트</button></div>
-          <div class="pa10"> <button class="btn01" onclick="change03()"> 데이터 변경 ( 리스트시작점, 갯수)  테스트</button></div>
-        </code>
-       </pre>
-      <pre>
-        <code class="language-js">
-          // script 구현코드
-
-            var app03 = new dataBind({
-              el:'app03',
-              data:{
-                dataNone : '없음',// data없을 때 디폴트 정하기 (없으면 '')
-                list01 : 'app',// 데이터 수정 없이 들어갈 때
-                list02 : '3333',
-                class01: 'classtype01',
-                style : '',
-                listArr :{
-                  data :[
-                      {name01:'이름1', age:'13',color:'color05'},
-                      {name01:'이름2', age:'14',color:'color04'},
-                      {name01:'이름3', age:'15',color:'color03'},
-                      {name01:'이름4', age:'16',color:'color02'},
-                      {name01:'이름5', age:'17',color:'color01'},
-                      {name01:'이름6', age:'17',color:'color01'},
-                      {name01:'이름7', age:'17',color:'color03'},
-                      {name01:'이름8', age:'17',color:'color04'},
-                      {name01:'이름9', age:'17',color:'color05'},
-                      {name01:'이름5', age:'17',color:'color01'},
-                      {name01:'이름5', age:'17',color:'color01'}
-                    ],
-                  render:{
-                    name01:'arrRender', // 사용될 render function name (computed 객체 메소드)
-                    age:'arrRender2', // 사용될 render function name (computed 객체 메소드)
-                  }
-                }
-              },
-              computed:{ // 재사용 가능한 메소드 객체
-                renderFun1: function (data) {
-                  return data+' renderFun로 변경 되었습니다.';
-                },
-                renderFun2: function (data) {
-                  return data+' renderFun2로 변경 되었습니다.';
-                },
-                arrRender: function(data){
-                  return '나의 이름은 :'+data;
-                },
-                arrRender2: function(data){
-                  return data+' 세 입니다.';
-                }
-              },
-              template : {
-                tep:'<li class="{{color}}"><span>{{name01}}</span><span>{{name03}}</span><span>{{age}}</span></li>',
-                tep2:'<tr><td>{{name01}}</td><td>{{age}}</td></tr>'
-              }
-            },function(data){
-              // 데이터 모두 들어가고 나서 실행되는 이벤트
-              console.log('완성')
-            });
-        var change02= function(){// 클릭시 발생하는 함수
-              app03.setData({
-                'list01' : 'app change02',
-                'list02' : '3333 change02',
-                'class01' : 'class01 change02',
-                'style':'background--color:blue; color:#fff;',
-                listArr :{
-                  data :[
-                    {name01:'이름1', age:'13',color:'color05'},
-                    {name01:'이름2', age:'14',color:'color04'},
-                    {name01:'이름3', age:'15',color:'color03'},
-                    {name01:'이름4', age:'16',color:'color02'},
-                    {name01:'이름5', age:'17',color:'color01'}
-                  ],
-                  render:{
-                    name01:'arrRender2', // 사용될 render function name (computed 객체 메소드)
-                    age:'arrRender', // 사용될 render function name (computed 객체 메소드)
-                  }
-                }
-
-              })
-            }
-            var change03= function(){//클릭시 발생하는 함수
-              app03.setData({
-                  'list01' : '리스트가 조금만 랜더링 됩니다.',
-                  'list02' : '3333 change03',
-                  'class01' : 'class01 change03',
-                  'style':'background-color:blue; color:#fff;',
-                  listArr :{
-                    data :[
-                      {name01:'이름1 change', age:'23',color:'color05'},
-                      {name01:'이름2 change', age:'24',color:'color04'},
-                      {name01:'이름3 change', age:'25',color:'color03'},
-                      {name01:'이름4 change', age:'26',color:'color02'},
-                      {name01:'이름5 change', age:'27',color:'color01'},
-                      {name01:'이름6 change', age:'23',color:'color05'},
-                      {name01:'이름7 change', age:'24',color:'color04'},
-                      {name01:'이름8 change', age:'25',color:'color03'},
-                      {name01:'이름9 change', age:'26',color:'color02'},
-                      {name01:'이름10 change', age:'27',color:'color01'},
-                      {name01:'이름11 change', age:'23',color:'color05'},
-                      {name01:'이름12 change', age:'24',color:'color04'},
-                      {name01:'이름13 change', age:'25',color:'color03'},
-                      {name01:'이름14 change', age:'26',color:'color02'},
-                      {name01:'이름15 change', age:'27',color:'color01'}
-                    ],
-                    render:{
-                      name01:'arrRender2', // 사용될 render function name (computed 객체 메소드)
-                      age:'arrRender', // 사용될 render function name (computed 객체 메소드)
-                    },
-                    setting:{
-                      start: 3,
-                      length:3
-                    }
-                  }
-              })
-            }
-        </code>
-      </pre>
+  })
+}
+var change03= function(){//클릭시 발생하는 함수
+  app03.setData({
+      'list01' : '리스트가 조금만 랜더링 됩니다.',
+      'list02' : '3333 change03',
+      'class01' : 'class01 change03',
+      'style':'background-color:blue; color:#fff;',
+      listArr :{
+        data :[
+          {name01:'이름1 change', age:'23',color:'color05'},
+          {name01:'이름2 change', age:'24',color:'color04'},
+          {name01:'이름3 change', age:'25',color:'color03'},
+          {name01:'이름4 change', age:'26',color:'color02'},
+          {name01:'이름5 change', age:'27',color:'color01'},
+          {name01:'이름6 change', age:'23',color:'color05'},
+          {name01:'이름7 change', age:'24',color:'color04'},
+          {name01:'이름8 change', age:'25',color:'color03'},
+          {name01:'이름9 change', age:'26',color:'color02'},
+          {name01:'이름10 change', age:'27',color:'color01'},
+          {name01:'이름11 change', age:'23',color:'color05'},
+          {name01:'이름12 change', age:'24',color:'color04'},
+          {name01:'이름13 change', age:'25',color:'color03'},
+          {name01:'이름14 change', age:'26',color:'color02'},
+          {name01:'이름15 change', age:'27',color:'color01'}
+        ],
+        render:{
+          name01:'arrRender2', // 사용될 render function name (computed 객체 메소드)
+          age:'arrRender', // 사용될 render function name (computed 객체 메소드)
+        },
+        setting:{
+          start: 3,
+          length:3
+        }
+      }
+  })
+}
+</code>
+</pre>
     </div>
   </div>
   <div class="inner-box">
@@ -428,8 +429,15 @@
       </div>
     </div>
     <h3 class="pt20">데이터 바인딩 후에 수정</h3>
-    <div class="pa10"> <button class="btn01" onclick="change02()"> 데이터 변경 테스트</button>
-    <button class="btn01" onclick="change03()"> 데이터 변경 ( 리스트시작점-3, 갯수-3)  테스트</button></div>
+    <div class="pa10">
+      <p class="mb10">기본 리스트 변경</p>
+      <button class="btn01" onclick="change02()"> 데이터 변경 테스트</button>
+    </div>
+    <div class="pa10">
+      <p class="mb10">10000개의 데이터에서 5000번째부터 100개 가져옴</p>
+      <button class="btn01" onclick="change03()"> 데이터 변경 ( 리스트시작점-5000, 갯수-100)  테스트</button>
+    </div>
+
     <script>
       var app03 = new dataBind({
         el:'app03-2',
@@ -496,15 +504,7 @@
               {name01:'이름4 change', age:'26',color:'color02'},
               {name01:'이름5 change', age:'27',color:'color01'},
               {name01:'이름6 change', age:'23',color:'color05'},
-              {name01:'이름7 change', age:'24',color:'color04'},
-              {name01:'이름8 change', age:'25',color:'color03'},
-              {name01:'이름9 change', age:'26',color:'color02'},
-              {name01:'이름10 change', age:'27',color:'color01'},
-              {name01:'이름11 change', age:'23',color:'color05'},
-              {name01:'이름12 change', age:'24',color:'color04'},
-              {name01:'이름13 change', age:'25',color:'color03'},
-              {name01:'이름14 change', age:'26',color:'color02'},
-              {name01:'이름15 change', age:'27',color:'color01'}
+              {name01:'이름7 change', age:'24',color:'color04'}
             ],
             render:{
               name01:'arrRender2', // 사용될 render function name (computed 객체 메소드)
@@ -513,7 +513,10 @@
           }
         });
       }
-
+      var bigList = []
+      for(var i = 0 ;i<10000 ; i++){
+        bigList.push({name01:'이름 '+i+' change', age:i+ '세',color:'color0'+Math.ceil(Math.random()*5)})
+      }
       var change03= function(){
         app03.setData({
           'list01' : '리스트가 조금만 랜더링 됩니다.',
@@ -521,30 +524,14 @@
           'class01' : 'class01 change03',
           'style':'background-color:blue; color:#fff;',
           listArr :{
-            data :[
-              {name01:'이름1 change', age:'23',color:'color05'},
-              {name01:'이름2 change', age:'24',color:'color04'},
-              {name01:'이름3 change', age:'25',color:'color03'},
-              {name01:'이름4 change', age:'26',color:'color02'},
-              {name01:'이름5 change', age:'27',color:'color01'},
-              {name01:'이름6 change', age:'23',color:'color05'},
-              {name01:'이름7 change', age:'24',color:'color04'},
-              {name01:'이름8 change', age:'25',color:'color03'},
-              {name01:'이름9 change', age:'26',color:'color02'},
-              {name01:'이름10 change', age:'27',color:'color01'},
-              {name01:'이름11 change', age:'23',color:'color05'},
-              {name01:'이름12 change', age:'24',color:'color04'},
-              {name01:'이름13 change', age:'25',color:'color03'},
-              {name01:'이름14 change', age:'26',color:'color02'},
-              {name01:'이름15 change', age:'27',color:'color01'}
-            ],
+            data :bigList,
             render:{
               name01:'arrRender2', // 사용될 render function name (computed 객체 메소드)
               age:'arrRender', // 사용될 render function name (computed 객체 메소드)
             },
             setting:{
-              start: 3,
-              length:3
+              start: 5000,
+              length:100
             }
           }
         });
@@ -559,59 +546,64 @@
   <div class="inner-box">
     <h3 class="pt20">구현코드 예시</h3>
     <div class="item-box">
-      <pre>
-        <code class="language-html">
-          <!-- html 구현코드 -->
-           <div id="app04">
-             <div><input class="input" type="text" data-watch="input01" value="{{input01}}"></div>
-             <div>
-               <input type="radio" class="radio" name="radio01" data-watch="radio01" id="radio01" {{radio01}}><label for="radio01">radio01</label>
-               <input type="radio" class="radio" name="radio01" data-watch="radio02" id="radio02" {{radio02}}><label  for="radio02">radio02</label>
-             </div>
+<pre>
+<code class="language-html">
+<!-- html 구현코드 -->
+ <div id="app04">
+   <div><input class="input" type="text" data-watch="input01" value="{{input01}}"></div>
+   <div>
+     <input type="radio" class="radio" name="radio01" data-watch="radio01" id="radio01" {{checked(radio01)}}><label for="radio01">radio01</label>
+     <input type="radio" class="radio" name="radio01" data-watch="radio02" id="radio02" {{checked(radio02)}}><label  for="radio02">radio02</label>
+   </div>
 
-             <div><input type="checkbox" class="checkbox" {{checkbox01}} data-watch="checkbox01"><input type="checkbox" class="checkbox" {{checkbox02}} data-watch="checkbox02"></div>
-             <div><textarea data-watch="textarea" class="textarea">{{textarea}}</textarea></div>
-          </div>
-          <div class="pa10"> <button class="btn01" onclick="change04()"> 데이터 변경2 테스트</button></div>
-        </code>
-      </pre>
-      <pre>
-        <code class="language-js">
-          // script 구현코드
+   <div><input type="checkbox" class="checkbox" {{checked(checkbox01)}} data-watch="checkbox01"><input type="checkbox" class="checkbox" {{checked(checkbox02)}} data-watch="checkbox02"></div>
+   <div><textarea data-watch="textarea" class="textarea">{{textarea}}</textarea></div>
+</div>
+<div class="pa10"> <button class="btn01" onclick="change04()"> 데이터 변경2 테스트</button></div>
+</code>
+</pre>
+<pre>
+<code class="language-js">
+// script 구현코드
 
-            var app04 = new dataBind({
-              el:'app04',
-              data:{
-                dataNone : '없음',// data없을 때 디폴트 정하기 (없으면 '')
-                input01: '우리나라만세',
-                radio01 : 'checked',
-                radio02 : '',
-              checkbox01 : '',
-              checkbox02: 'checked',
-                textarea : '텍스트 테스트입니다.'
-              },
-              computed:{ // 재사용 가능한 메소드 객체
-                renderFun1: function (data) {
-                  return data+' renderFun로 변경 되었습니다.';
-                },
-
-              }
-            },function(data){
-              // 데이터 모두 들어가고 나서 실행되는 이벤트
-              console.log('완성')
-            });
-            var change04= function(){//클릭시 발생하는 함수
-              app04.setData({
-                input01: '우리나라만세 우리나라만세',
-                radio01 : 'checked',
-                radio02 : '',
-                checkbox01 : '',
-                checkbox02: '',
-                textarea : '텍스트 테스트입니다. 다시 해봅니다.'
-              })
-            }
-        </code>
-      </pre>
+ var app04 = new dataBind({
+  el:'app04-2',
+  data:{
+    dataNone : '',// data없을 때 디폴트 정하기 (없으면 '')
+    input01: '데이터를 수정하여 보세요',
+    radio01 : true,
+    radio02 : false,
+    checkbox01 : false,
+    checkbox02: true,
+    textarea : '텍스트 테스트입니다.'
+  },
+  computed:{ // 재사용 가능한 메소드 객체
+    renderFun1: function (data) {
+      return data+' renderFun로 변경 되었습니다.';
+    },
+    checked: function(data){
+      if(data){
+        return 'checked'
+      }else{
+        return ''
+      }
+    }
+  }
+},function(data){
+  // 데이터 모두 들어가고 나서 실행되는 이벤트
+  console.log('완성')
+});
+var change04= function(){//클릭시 발생하는 함수
+  app04.setData({
+    radio01 : true,
+    radio02 : false,
+    checkbox01 : false,
+    checkbox02: false,
+    textarea : '텍스트 테스트입니다. 다시 해봅니다.'
+  })
+}
+</code>
+</pre>
     </div>
   </div>
   <div class="inner-box">
@@ -621,10 +613,10 @@
          <div id="app04-2">
            <div><input class="input" type="text" data-watch="input01" value="{{input01}}"></div>
            <div>
-             <input type="radio" class="radio" name="radio01" data-watch="radio01" id="radio01" {{radio01}}><label for="radio01">radio01</label>
-             <input type="radio" class="radio" name="radio01" data-watch="radio02" id="radio02" {{radio02}}><label  for="radio02">radio02</label>
+             <input type="radio" class="radio" name="radio01" data-watch="radio01" id="radio01" {{checked(radio01)}}><label for="radio01">radio01</label>
+             <input type="radio" class="radio" name="radio01" data-watch="radio02" id="radio02" {{checked(radio02)}}><label  for="radio02">radio02</label>
            </div>
-           <div><input type="checkbox" class="checkbox" {{checkbox01}} data-watch="checkbox01"><input type="checkbox" class="checkbox" {{checkbox02}} data-watch="checkbox02"></div>
+           <div><input type="checkbox" class="checkbox" {{checked(checkbox01)}} data-watch="checkbox01"><input type="checkbox" class="checkbox" {{checked(checkbox02)}} data-watch="checkbox02"></div>
            <div><textarea data-watch="textarea" class="textarea">{{textarea}}</textarea></div>
         </div>
       </div>
@@ -636,17 +628,24 @@
           data:{
             dataNone : '',// data없을 때 디폴트 정하기 (없으면 '')
             input01: '데이터를 수정하여 보세요',
-            radio01 : 'checked',
-            radio02 : '',
-            checkbox01 : '',
-            checkbox02: 'checked',
+            radio01 : true,
+            radio02 : false,
+            checkbox01 : false,
+            checkbox02: true,
             textarea : '텍스트 테스트입니다.'
           },
           computed:{ // 재사용 가능한 메소드 객체
             renderFun1: function (data) {
               return data+' renderFun로 변경 되었습니다.';
             },
-
+            checked: function(data){
+              console.log(data)
+              if(data){
+                return 'checked';
+              }else{
+                return '';
+              }
+            }
           }
         },function(data){
           // 데이터 모두 들어가고 나서 실행되는 이벤트
@@ -654,10 +653,10 @@
         });
         var change04= function(){//클릭시 발생하는 함수
           app04.setData({
-            radio01 : 'checked',
-            radio02 : '',
-            checkbox01 : '',
-            checkbox02: '',
+            radio01 : true,
+            radio02 : false,
+            checkbox01 : false,
+            checkbox02: false,
             textarea : '텍스트 테스트입니다. 다시 해봅니다.'
           })
         }
