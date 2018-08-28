@@ -53,9 +53,7 @@ var dataBind = function(obj, endFun){
   this.watchSet = function(){
     var watchList = document.querySelectorAll('[data-watch]');
     var root= this,dataName;
-
     for(var i = 0 ;i < watchList.length; i++){
-
       watchList[i].addEventListener('change',function(){
         dataName = this.getAttribute('data-watch');
         var radioName = this.getAttribute('name');
@@ -70,16 +68,16 @@ var dataBind = function(obj, endFun){
         }else{
           root.data[dataName]= this.value;
         }
-
       });
     }
   }
-  this.repeatRender = function(dataObj, templateName){
+  this.repeatRender = function(dataObj, templateName,renderSet){
     var data = this['data'][dataObj]['data'],
         dataRender = this['data'][dataObj]['render'],
-        template = this.template[templateName],itemObj,dataString,renderArr,renderDataObj,returnArr=[];
-
-    for(var i = 0 ;i<data.length; i++){
+        template = this.template[templateName],itemObj,dataString,renderArr,renderDataObj,returnArr=[],
+        i = renderSet && typeof(renderSet.start) =='number' ? renderSet.start : 0,
+        dataLength = renderSet && typeof(renderSet.length) =='number' ? i+renderSet.length : data.length ;
+    for(i ;i<dataLength; i++){
       itemObj = data[i];
       renderArr = [];
       templateList = template.indexOf('}}')>0 ?  template.split('{{') : template;
@@ -89,7 +87,6 @@ var dataBind = function(obj, endFun){
         if(templateList[j].indexOf('}}')>0){
           templateList[j] = this.dataRender(templateList[j],renderDataObj)
         }
-
       }
       returnArr.push(templateList.join(''))
     }
@@ -112,7 +109,7 @@ var dataBind = function(obj, endFun){
           // 객체명과 text 분리
           if(domList[i].indexOf('[for]') > 0 ){
             repeatRenderObj = domList[i].split('[for]');
-            domList[i] = domList[i].replace('>','>'+this.repeatRender(repeatRenderObj[0],repeatRenderObj[1].split('}}')[0]));
+            domList[i] = domList[i].replace('>','>'+this.repeatRender(repeatRenderObj[0],repeatRenderObj[1].split('}}')[0],this.data[repeatRenderObj[0]].setting));
           }else {
             domList[i] = this.dataRender(domList[i]);
           }
